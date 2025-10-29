@@ -6,7 +6,7 @@ library(dplyr)
 
 # Disable authentication prompts for public sheets
 # For private sheets, you'll need to set up authentication
-# gs4_deauth()
+gs4_deauth()
 
 ui <- page_sidebar(
   title = "Google Sheets Data Viewer",
@@ -38,7 +38,7 @@ ui <- page_sidebar(
       
       br(), br(),
       
-      conditionally_render(
+      conditionalPanel(
         condition = "output.data_loaded",
         checkboxInput(
           "show_summary",
@@ -110,7 +110,7 @@ server <- function(input, output, session) {
     # Show loading notification
     id <- showNotification(
       "Loading data from Google Sheets...",
-      type = "message",
+      type = "default",
       duration = NULL
     )
     
@@ -128,7 +128,7 @@ server <- function(input, output, session) {
       removeNotification(id)
       showNotification(
         paste("Successfully loaded", nrow(data), "rows and", ncol(data), "columns"),
-        type = "success",
+        type = "message",
         duration = 3
       )
       
